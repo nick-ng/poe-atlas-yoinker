@@ -33,7 +33,7 @@ export const sendToWebsite = async (newTrees) => {
       htmlString
     );
 
-    fs.writeFileSync(path.resolve(".", "static", "index.html"));
+    fs.writeFileSync(path.resolve(".", "static", "index.html"), newHtml);
   });
 };
 
