@@ -1,7 +1,44 @@
 import fetch from "node-fetch";
+import fs from "fs";
+import path from "path";
+
+export const sendToWebsite = async (newTrees) => {
+  let htmlString = `<div>${new Date().toString()}</div>
+`;
+  const accounts = Object.keys(newTrees);
+  accounts.forEach((account) => {
+    const leagues = newTrees[account];
+    const leagueNames = Object.keys(leagues);
+    htmlString += `<details><summary>${account} (${leagueNames.length} leagues)</summary>`;
+
+    leagueNames.forEach((leagueName) => {
+      const leagueTrees = leagues[leagueName];
+      htmlString += `<details><summary>${leagueName} (${leagueTrees.length} trees)</summary><ul>`;
+
+      leagueTrees.forEach((tree) => {
+        htmlString += `<li><a href="${tree.tree}" target="_blank">${tree.date}</a></li>`;
+      });
+
+      htmlString += "</ul></details>";
+    });
+
+    htmlString += "</details>";
+
+    const templateString = fs
+      .readFileSync(path.resolve(".", "templates", "index.html"))
+      .toString();
+
+    const newHtml = templateString.replace(
+      "<!-- Content goes here -->",
+      htmlString
+    );
+
+    fs.writeFileSync(path.resolve(".", "static", "index.html"));
+  });
+};
 
 export const sendToNickNg = async (newTrees) => {
-  let markdownString = `${(new Date()).toString()}
+  let markdownString = `${new Date().toString()}
 `;
   const accounts = Object.keys(newTrees);
   accounts.forEach((account) => {

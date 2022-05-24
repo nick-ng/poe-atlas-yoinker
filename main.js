@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 
 import { readSettings } from "./settings.js";
 import { fetchAllAtlastSkillTrees } from "./grinding-gear-games.js";
-import { sendToNickNg } from "./send-atlas-tree.js";
+import { sendToNickNg, sendToWebsite } from "./send-atlas-tree.js";
 
 const args = process.argv.slice(2);
 const mode = args[0];
@@ -67,6 +67,7 @@ const main = async () => {
 
   const newTreesYAML = YAML.stringify(existingTrees);
 
+  sendToWebsite(existingTrees);
   if (oldTreesYAML !== newTreesYAML) {
     writeFileSync(atlasSkillTreeFile, newTreesYAML);
     sendToNickNg(existingTrees);
