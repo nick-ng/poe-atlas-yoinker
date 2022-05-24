@@ -2,10 +2,10 @@
 
 cd /home/pi/git/poe-atlas-yoinker
 
-git checkout main
+/usr/bin/git checkout main
 
-git pull
+/usr/bin/git pull
 
-npm ci
+/home/pi/.nvm/versions/node/v16.15.0/bin/npm ci
 
 /home/pi/.nvm/versions/node/v16.15.0/bin/node server.js
