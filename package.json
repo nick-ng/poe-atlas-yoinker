@@ -1,0 +1,19 @@
+{
+  "name": "poe-atlas-yoinker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./main.js",
+    "poe-atlas-yoinker": "node --max-old-space-size=64 ./main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.11.1",
+    "node-fetch": "^3.2.3",
+    "yaml": "^2.0.1"
+  }
+}
