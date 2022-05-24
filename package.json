@@ -5,7 +5,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon --ignore static/ --ignore *.yml --delay 2 ./server.js",
+    "start": "nodemon --ignore static/ --ignore settings.yml --ignore atlas-skill-trees.yml --delay 2 ./server.js",
     "yoink": "node ./main.js",
     "poe-atlas-yoinker": "node --max-old-space-size=64 ./main.js"
   },
