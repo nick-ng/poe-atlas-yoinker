@@ -48,10 +48,55 @@ export const fetchAtlasSkillTree = async (account, league, realm) => {
   }
 };
 
-export const fetchAllAtlastSkillTrees = async (accounts, leagues, realm) => {
+const fetchCharacters = async (account, realm) => {
+  try {
+    const res = await fetch(
+      "https://www.pathofexile.com/character-window/get-characters",
+      {
+        credentials: "include",
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:103.0) Gecko/20100101 Firefox/103.0",
+          Accept: "application/json, text/javascript, */*; q=0.01",
+          "Accept-Language": "en-GB,en;q=0.5",
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          "X-Requested-With": "XMLHttpRequest",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "same-origin",
+          Pragma: "no-cache",
+          "Cache-Control": "no-cache",
+        },
+        referrer: `https://www.pathofexile.com/account/view-profile/${account}/characters`,
+        body: `accountName=${account}&realm=${realm}`,
+        method: "POST",
+        mode: "cors",
+      }
+    );
+
+    const body = await res.json();
+
+    return body;
+  } catch (e) {
+    console.error("error when fetching characters", e);
+  }
+
+  return [];
+};
+
+export const fetchAllAtlastSkillTrees = async (accounts, _leagues, realm) => {
   const data = [];
   for (const account of accounts) {
     const trees = [];
+
+    const characters = await fetchCharacters(account, realm);
+    const temp = characters
+      .map((c) => c.league || "Standard")
+      .filter(
+        (l) =>
+          !["Standard", "SSF Standard", "Hardcore", "SSF Hardcore"].includes(l)
+      );
+    const leagues = [...new Set(temp)];
     for (const league of leagues) {
       try {
         const location = await fetchAtlasSkillTree(account, league, realm);
