@@ -67,10 +67,10 @@ const main = async () => {
 
   const newTreesYAML = YAML.stringify(existingTrees);
 
-  sendToWebsite(existingTrees);
   if (oldTreesYAML !== newTreesYAML) {
     writeFileSync(atlasSkillTreeFile, newTreesYAML);
     // sendToNickNg(existingTrees);
+    sendToWebsite(existingTrees);
   } else {
     console.info("No change in atlas skill trees.");
   }
