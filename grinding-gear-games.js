@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 const baseUrl = "api.pathofexile.com";
-const emptyTree = "/fullscreen-atlas-skill-tree/AAAABgAAAAAA";
+const emptyTree = "c";
 
 export const fetchLeagues = async (userAgent) => {
   console.log("userAgent", userAgent);
@@ -30,6 +30,7 @@ export const fetchLeagues = async (userAgent) => {
 };
 
 export const fetchAtlasSkillTree = async (account, league, realm) => {
+  console.log(account, league, realm);
   const urlSearch = new URLSearchParams();
   urlSearch.set("accountName", account);
   urlSearch.set("league", league);
@@ -41,6 +42,8 @@ export const fetchAtlasSkillTree = async (account, league, realm) => {
         redirect: "manual",
       }
     );
+
+    console.log("res", res);
 
     return res.headers.get("location");
   } catch (e) {
@@ -89,6 +92,7 @@ export const fetchAllAtlastSkillTrees = async (accounts, _leagues, realm) => {
   for (const account of accounts) {
     const trees = [];
 
+    console.log("(account, realm)", account, realm);
     const characters = await fetchCharacters(account, realm);
     const temp = characters
       .map((c) => c.league || "Standard")
@@ -97,6 +101,7 @@ export const fetchAllAtlastSkillTrees = async (accounts, _leagues, realm) => {
           !["Standard", "SSF Standard", "Hardcore", "SSF Hardcore"].includes(l)
       );
     const leagues = [...new Set(temp)];
+    console.log(leagues);
     for (const league of leagues) {
       try {
         const location = await fetchAtlasSkillTree(account, league, realm);

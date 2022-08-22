@@ -25,6 +25,8 @@ const main = async () => {
     settings.realm
   );
 
+  console.log("alltrees", allTrees);
+
   let existingTrees = {};
   let oldTreesYAML = "";
 
@@ -49,6 +51,7 @@ const main = async () => {
     }
     for (const tree of trees) {
       const { league, location } = tree;
+      console.log(account, league, location);
       if (!existingTrees[account][league]) {
         existingTrees[account][league] = [];
       }
@@ -78,18 +81,18 @@ const main = async () => {
   console.timeEnd("main");
 };
 
-switch (mode) {
-  case "--continuous":
-    const nextTimeout = async () => {
-      await main();
-      console.info(dayjs().format(dateFormat));
-      setTimeout(() => {
-        nextTimeout();
-      }, refreshMS);
-    };
+// switch (mode) {
+//   case "--continuous":
+//     const nextTimeout = async () => {
+//       await main();
+//       console.info(dayjs().format(dateFormat));
+//       setTimeout(() => {
+//         nextTimeout();
+//       }, refreshMS);
+//     };
 
-    nextTimeout();
-    break;
-  default:
-    main();
-}
+//     nextTimeout();
+//     break;
+//   default:
+//     main();
+// }
